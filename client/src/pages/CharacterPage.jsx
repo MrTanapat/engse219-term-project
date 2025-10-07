@@ -88,7 +88,6 @@ function CharacterPage() {
     level: c.level,
     fame_points: c.fame_points,
     is_active: c.is_active ? "Active" : "Non_Active",
-    // เก็บข้อมูลเต็มไว้สำหรับการแก้ไข
     player_id: c.player_id,
   }));
 

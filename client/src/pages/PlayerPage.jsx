@@ -10,7 +10,6 @@ function PlayerPage() {
   });
   const [editing, setEditing] = useState(null);
 
-  // โหลดข้อมูล Players
   const fetchPlayers = async () => {
     const res = await fetch("http://localhost:5000/api/players");
     const data = await res.json();
@@ -21,7 +20,6 @@ function PlayerPage() {
     fetchPlayers();
   }, []);
 
-  // เพิ่ม Player ใหม่
   const handleAdd = async () => {
     if (!form.username || !form.email || !form.password) {
       alert("⚠️ กรุณากรอกข้อมูลให้ครบทุกช่อง");
@@ -38,7 +36,6 @@ function PlayerPage() {
     fetchPlayers();
   };
 
-  // ลบ Player
   const handleDelete = async (row) => {
     if (!window.confirm(`ต้องการลบผู้เล่น "${row.username}" ใช่หรือไม่?`))
       return;
@@ -49,17 +46,15 @@ function PlayerPage() {
     fetchPlayers();
   };
 
-  // เริ่มแก้ไข
   const handleEdit = (player) => {
     setEditing(player.player_id);
     setForm({
       username: player.username,
       email: player.email,
-      password: "", // ไม่แสดง password เดิม
+      password: "",
     });
   };
 
-  // อัปเดต Player
   const handleUpdate = async () => {
     if (!form.username || !form.email) {
       alert("⚠️ กรุณากรอก Username และ Email");
@@ -71,7 +66,6 @@ function PlayerPage() {
       email: form.email,
     };
 
-    // ส่ง password ก็ต่อเมื่อมีการกรอก
     if (form.password) {
       updateData.password = form.password;
     }
@@ -95,7 +89,6 @@ function PlayerPage() {
     });
   };
 
-  // แปลงข้อมูลสำหรับ TableList
   const tableData = players.map((p) => ({
     player_id: p.player_id,
     username: p.username,
@@ -113,7 +106,6 @@ function PlayerPage() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Header */}
       <div className="mb-6">
         <h2 className="font-heading text-3xl font-bold text-gray-800 flex items-center gap-2">
           👥 Player Management
@@ -123,7 +115,6 @@ function PlayerPage() {
         </p>
       </div>
 
-      {/* Form Card */}
       <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-200">
         <h3 className="font-heading text-lg font-semibold text-gray-800 mb-4">
           {editing ? "📝 แก้ไขข้อมูลผู้เล่น" : "➕ เพิ่มผู้เล่นใหม่"}
@@ -204,7 +195,6 @@ function PlayerPage() {
           )}
         </div>
 
-        {/* Info Note */}
         <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
           <p className="text-sm text-blue-800">
             <span className="font-semibold">💡 หมายเหตุ:</span> ช่อง Username
@@ -213,7 +203,6 @@ function PlayerPage() {
         </div>
       </div>
 
-      {/* Stats Card */}
       <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl shadow-lg p-6 mb-6 text-white">
         <div className="flex items-center justify-between">
           <div>
@@ -225,7 +214,6 @@ function PlayerPage() {
         </div>
       </div>
 
-      {/* Table */}
       <TableList
         columns={columns}
         data={tableData}

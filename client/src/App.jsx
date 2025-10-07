@@ -4,6 +4,7 @@ import PlayerPage from "./pages/PlayerPage";
 import CharacterPage from "./pages/CharacterPage";
 import SkillPage from "./pages/SkillPage";
 import ItemPage from "./pages/ItemPage";
+import DocPage from "./pages/Document";
 
 function App() {
   const [page, setPage] = useState("player");
@@ -16,6 +17,7 @@ function App() {
         {page === "character" && <CharacterPage />}
         {page === "skill" && <SkillPage />}
         {page === "item" && <ItemPage />}
+        {page === "Doc" && <DocPage />}
       </div>
     </div>
   );

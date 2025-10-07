@@ -6,6 +6,7 @@ function Navbar({ currentPage, setPage }) {
     { id: "character", label: "Character" },
     { id: "skill", label: "Skill" },
     { id: "item", label: "Item" },
+    { id: "Doc", label: "Doc" },
   ];
 
   return (

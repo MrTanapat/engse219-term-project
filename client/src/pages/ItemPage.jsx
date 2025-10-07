@@ -13,7 +13,6 @@ function ItemPage() {
   });
   const [editing, setEditing] = useState(null);
 
-  // ดึงข้อมูล Item ทั้งหมด
   const fetchItems = async () => {
     const res = await fetch("http://localhost:5000/api/items");
     const data = await res.json();
@@ -24,7 +23,6 @@ function ItemPage() {
     fetchItems();
   }, []);
 
-  // เพิ่ม Item
   const handleAdd = async () => {
     await fetch("http://localhost:5000/api/items", {
       method: "POST",
@@ -36,7 +34,6 @@ function ItemPage() {
     fetchItems();
   };
 
-  // ลบ Item
   const handleDelete = async (row) => {
     if (!window.confirm("แน่ใจว่าต้องการลบ Item นี้?")) return;
     await fetch(`http://localhost:5000/api/items/${row.item_id}`, {
@@ -45,7 +42,6 @@ function ItemPage() {
     fetchItems();
   };
 
-  // เริ่มแก้ไข
   const handleEdit = (item) => {
     setEditing(item.item_id);
     setForm({
@@ -58,7 +54,6 @@ function ItemPage() {
     });
   };
 
-  // อัปเดต Item
   const handleUpdate = async () => {
     await fetch(`http://localhost:5000/api/items/${editing}`, {
       method: "PUT",
@@ -82,7 +77,6 @@ function ItemPage() {
     });
   };
 
-  // แปลงข้อมูลสำหรับ TableList
   const tableData = items.map((i) => ({
     item_id: i.item_id,
     item_name: i.item_name,
@@ -105,7 +99,6 @@ function ItemPage() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Header */}
       <div className="mb-6">
         <h2 className="font-heading text-3xl font-bold text-gray-800 flex items-center gap-2">
           🛡️ Item Management
@@ -115,7 +108,6 @@ function ItemPage() {
         </p>
       </div>
 
-      {/* Form Card */}
       <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-200">
         <h3 className="font-heading text-lg font-semibold text-gray-800 mb-4">
           {editing ? "📝 แก้ไขไอเทม" : "➕ เพิ่มไอเทมใหม่"}
@@ -251,7 +243,6 @@ function ItemPage() {
         </div>
       </div>
 
-      {/* Table */}
       <TableList
         columns={columns}
         data={tableData}
