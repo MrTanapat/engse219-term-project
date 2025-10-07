@@ -30,5 +30,18 @@
 ---
 
 ## ตัวอย่าง Web Application
-### หน้า Player
+### Player Management
+- ใช้จัดการเพิ่ม, ลบ, แก้ไข ข้อมูลของ Player
 <img width="1280" height="615" alt="image" src="https://github.com/user-attachments/assets/6c2d589a-d188-4654-8872-eced16c88f71" />
+
+### Character Management
+- ใช้จัดการเพิ่ม, ลบ, แก้ไข ข้อมูลของ Character
+<img width="1280" height="615" alt="image" src="https://github.com/user-attachments/assets/d5a049f5-71e7-4d17-b3eb-9076e88303b6" />
+
+### Skills Management
+- ใช้จัดการเพิ่ม, ลบ, แก้ไข ข้อมูลของ Skills
+<img width="1280" height="615" alt="image" src="https://github.com/user-attachments/assets/65dcd494-8b07-4303-bdd1-5bdf6af3a9df" />
+
+### Item Management
+- ใช้จัดการเพิ่ม, ลบ, แก้ไข ข้อมูลของ Item
+<img width="1280" height="615" alt="image" src="https://github.com/user-attachments/assets/dda1e077-79bf-424f-b59d-7510734faf8f" />
