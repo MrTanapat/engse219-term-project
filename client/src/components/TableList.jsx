@@ -32,13 +32,13 @@ function TableList({ columns, data, onEdit, onDelete }) {
                   onClick={() => onEdit(row)}
                   className="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 rounded text-white"
                 >
-                  ✏️
+                  Edit
                 </button>
                 <button
                   onClick={() => onDelete(row)}
                   className="px-3 py-1 bg-red-500 hover:bg-red-600 rounded text-white"
                 >
-                  🗑️
+                  Delete
                 </button>
               </td>
             </tr>

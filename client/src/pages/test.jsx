@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import TableList from "../components/TableList";
+import TableList from "./components/TableList";
 
 function SkillPage() {
   const [skills, setSkills] = useState([]);
   const [form, setForm] = useState({ skill_name: "", required_fame: 0 });
   const [editing, setEditing] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const fetchSkills = async () => {
+    setLoading(true);
     const res = await fetch("http://localhost:5000/api/skills");
     const data = await res.json();
     setSkills(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -131,12 +134,18 @@ function SkillPage() {
         </div>
       </div>
 
-      <TableList
-        data={skills}
-        columns={columns}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+        {loading ? (
+          <p className="text-gray-500 text-center">⏳ กำลังโหลดข้อมูล...</p>
+        ) : (
+          <TableList
+            data={skills}
+            columns={columns}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
+      </div>
     </div>
   );
 }
