@@ -45,3 +45,7 @@
 ### Item Management
 - ใช้จัดการเพิ่ม, ลบ, แก้ไข ข้อมูลของ Item
 <img width="1280" height="615" alt="image" src="https://github.com/user-attachments/assets/dda1e077-79bf-424f-b59d-7510734faf8f" />
+
+### Document
+- แสดงข้อมูล Project Structure, ผู้จัดทำ
+<img width="1901" height="811" alt="image" src="https://github.com/user-attachments/assets/013cead0-354d-4c55-a2ba-77fb45f6a03c" />
