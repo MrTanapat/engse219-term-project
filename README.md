@@ -6,7 +6,10 @@
 ## บริบทเกม: Albion Online
 
 **Albion Online** เป็นเกมประเภท **Massively Multiplayer Online Role-Playing Game (MMORPG)** แนวแซนด์บ็อกซ์ (Sandbox) ที่โดดเด่นด้วยระบบเศรษฐกิจที่ขับเคลื่อนโดยผู้เล่น (Player-Driven Economy) และการต่อสู้แบบ Full-Loot PvP
+
+## เอกสาร และ วิดีโอ
 ### [Document](https://docs.google.com/document/d/1YfSS470Y2bOCumOmLHJIRubqwlLVqPoYrJCTvWaiQJQ/edit?usp=sharing)
+### [Video นำเสนอ](https://youtu.be/jTL6ybbHyv4)
 
 ## เทคโนโลยีที่ใช้
 ### Frontend
@@ -43,6 +46,7 @@
 ### Document
 - แสดงข้อมูล Project Structure, ผู้จัดทำ
 <img width="1901" height="811" alt="image" src="https://github.com/user-attachments/assets/013cead0-354d-4c55-a2ba-77fb45f6a03c" />
+
 
 
 
