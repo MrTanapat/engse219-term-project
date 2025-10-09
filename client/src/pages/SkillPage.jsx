@@ -32,9 +32,16 @@ function SkillPage() {
     fetchSkills();
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (skill) => {
+    const id = skill.skill_id;
     if (!window.confirm("แน่ใจว่าต้องการลบ Skill นี้?")) return;
-    await fetch(`http://localhost:5000/api/skills/${id}`, { method: "DELETE" });
+
+    const res = await fetch(`http://localhost:5000/api/skills/${id}`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+    alert(data.message || "ลบสำเร็จ");
     fetchSkills();
   };
 

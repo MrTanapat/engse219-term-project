@@ -47,9 +47,18 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
+  console.log("🔍 ลบ skill id:", id);
+
   const sql = "DELETE FROM Skill WHERE skill_id = ?";
-  db.query(sql, [id], (err) => {
-    if (err) return res.status(500).json({ error: err });
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("❌ MySQL Error:", err);
+      return res.status(500).json({ error: err });
+    }
+    console.log("📦 result:", result);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "❌ Skill not found" });
+    }
     res.json({ message: "🗑️ ลบ Skill เรียบร้อย" });
   });
 });

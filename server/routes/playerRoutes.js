@@ -20,4 +20,48 @@ router.post("/", (req, res) => {
   });
 });
 
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { username, email, password } = req.body;
+
+  if (!username || !email) {
+    return res.status(400).json({ message: "⚠️ กรุณากรอก Username และ Email" });
+  }
+
+  let sql, params;
+  if (password) {
+    sql = `
+      UPDATE Player
+      SET username = ?, email = ?, password = ?
+      WHERE player_id = ?
+    `;
+    params = [username, email, password, id];
+  } else {
+    sql = `
+      UPDATE Player
+      SET username = ?, email = ?
+      WHERE player_id = ?
+    `;
+    params = [username, email, id];
+  }
+
+  db.query(sql, params, (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    if (result.affectedRows === 0)
+      return res.status(404).json({ message: "❌ Player not found" });
+    res.json({ message: "📝 อัปเดตข้อมูลผู้เล่นเรียบร้อย" });
+  });
+});
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "DELETE FROM Player WHERE player_id = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err });
+    if (result.affectedRows === 0)
+      return res.status(404).json({ message: "❌ Player not found" });
+    res.json({ message: "🗑️ ลบ Player เรียบร้อย" });
+  });
+});
+
 export default router;

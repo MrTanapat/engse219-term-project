@@ -7,9 +7,9 @@ function ItemPage() {
     item_name: "",
     tier: "",
     quality: "",
-    enchant_level: 0,
-    req_fame: 0,
+    req_level: 1,
     durability: 100,
+    is_bound: 0,
   });
   const [editing, setEditing] = useState(null);
 
@@ -24,14 +24,32 @@ function ItemPage() {
   }, []);
 
   const handleAdd = async () => {
-    await fetch("http://localhost:5000/api/items", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    alert("✅ เพิ่ม Item สำเร็จ");
-    resetForm();
-    fetchItems();
+    try {
+      const response = await fetch("http://localhost:5000/api/items", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("❌ Server Error:", data);
+        alert(
+          `❌ Error: ${data.error || data.message || "Unknown error"}\n\nSQL: ${
+            data.sqlMessage || ""
+          }`
+        );
+        return;
+      }
+
+      alert("✅ เพิ่ม Item สำเร็จ");
+      resetForm();
+      fetchItems();
+    } catch (error) {
+      console.error("❌ Network Error:", error);
+      alert(`❌ Network Error: ${error.message}`);
+    }
   };
 
   const handleDelete = async (row) => {
@@ -48,22 +66,39 @@ function ItemPage() {
       item_name: item.item_name,
       tier: item.tier,
       quality: item.quality,
-      enchant_level: item.enchant_level,
-      req_fame: item.req_fame,
+      req_level: item.req_level || 1,
       durability: item.durability,
+      is_bound: item.is_bound || 0,
     });
   };
 
   const handleUpdate = async () => {
-    await fetch(`http://localhost:5000/api/items/${editing}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    alert("📝 อัปเดต Item เรียบร้อย");
-    setEditing(null);
-    resetForm();
-    fetchItems();
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/items/${editing}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("❌ Server Error:", data);
+        alert(`❌ Error: ${data.error || data.message || "Unknown error"}`);
+        return;
+      }
+
+      alert("📝 อัปเดต Item เรียบร้อย");
+      setEditing(null);
+      resetForm();
+      fetchItems();
+    } catch (error) {
+      console.error("❌ Network Error:", error);
+      alert(`❌ Network Error: ${error.message}`);
+    }
   };
 
   const resetForm = () => {
@@ -71,20 +106,20 @@ function ItemPage() {
       item_name: "",
       tier: "",
       quality: "",
-      enchant_level: 0,
-      req_fame: 0,
+      req_level: 1,
       durability: 100,
+      is_bound: 0,
     });
   };
 
   const tableData = items.map((i) => ({
     item_id: i.item_id,
     item_name: i.item_name,
-    tier: i.tier,
+    tier: `T${i.tier}`,
     quality: i.quality,
-    enchant_level: i.enchant_level,
-    req_fame: i.req_fame,
+    req_level: i.req_level || 1,
     durability: `${i.durability}%`,
+    is_bound: i.is_bound ? "✅ Yes" : "❌ No",
   }));
 
   const columns = [
@@ -92,9 +127,9 @@ function ItemPage() {
     "item_name",
     "tier",
     "quality",
-    "enchant_level",
-    "req_fame",
+    "req_level",
     "durability",
+    "is_bound",
   ];
 
   return (
@@ -133,18 +168,20 @@ function ItemPage() {
             </label>
             <select
               value={form.tier}
-              onChange={(e) => setForm({ ...form, tier: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, tier: parseInt(e.target.value) || "" })
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
             >
               <option value="">Select Tier</option>
-              <option value="T1">T1</option>
-              <option value="T2">T2</option>
-              <option value="T3">T3</option>
-              <option value="T4">T4</option>
-              <option value="T5">T5</option>
-              <option value="T6">T6</option>
-              <option value="T7">T7</option>
-              <option value="T8">T8</option>
+              <option value="1">T1</option>
+              <option value="2">T2</option>
+              <option value="3">T3</option>
+              <option value="4">T4</option>
+              <option value="5">T5</option>
+              <option value="6">T6</option>
+              <option value="7">T7</option>
+              <option value="8">T8</option>
             </select>
           </div>
 
@@ -168,31 +205,17 @@ function ItemPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Enchant Level
+              Required Level
             </label>
             <input
               type="number"
-              min="0"
-              max="4"
-              placeholder="0-4"
-              value={form.enchant_level}
+              min="1"
+              max="100"
+              placeholder="1"
+              value={form.req_level}
               onChange={(e) =>
-                setForm({ ...form, enchant_level: e.target.value })
+                setForm({ ...form, req_level: parseInt(e.target.value) || 1 })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Required Fame
-            </label>
-            <input
-              type="number"
-              min="0"
-              placeholder="0"
-              value={form.req_fame}
-              onChange={(e) => setForm({ ...form, req_fame: e.target.value })}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             />
           </div>
@@ -207,9 +230,30 @@ function ItemPage() {
               max="100"
               placeholder="100"
               value={form.durability}
-              onChange={(e) => setForm({ ...form, durability: e.target.value })}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  durability: parseInt(e.target.value) || 100,
+                })
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Is Bound?
+            </label>
+            <select
+              value={form.is_bound}
+              onChange={(e) =>
+                setForm({ ...form, is_bound: parseInt(e.target.value) })
+              }
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
+            >
+              <option value={0}>❌ No (Tradeable)</option>
+              <option value={1}>✅ Yes (Bound)</option>
+            </select>
           </div>
         </div>
 
